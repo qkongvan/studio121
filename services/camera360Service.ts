@@ -1,13 +1,14 @@
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import { GenerateContentResponse } from "@google/genai";
 import { CameraState, AdvancedSettings } from "../types";
 import { buildCameraPrompt } from "../utils/camera360";
+import { getAiClient } from "./keyService";
 
 export async function editImageCamera(
   imageSource: string,
   camera: CameraState,
   settings: AdvancedSettings
 ): Promise<string> {
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
+  const ai = getAiClient('image');
   const promptText = buildCameraPrompt(camera.azimuth, camera.elevation, camera.distance);
   
   const systemInstruction = `
