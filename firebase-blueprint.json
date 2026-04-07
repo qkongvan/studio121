@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "Session": {
+      "title": "Session",
+      "description": "Represents a user's active session for single-login enforcement.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The unique identifier of the user (username)."
+        },
+        "sessionId": {
+          "type": "string",
+          "description": "The unique identifier for the current browser session."
+        },
+        "lastActive": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp of the last activity in this session."
+        }
+      },
+      "required": ["userId", "sessionId", "lastActive"]
+    },
+    "TTSHistory": {
+      "title": "TTSHistory",
+      "description": "Represents a generated audio snippet.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" },
+        "audioData": { "type": "string", "description": "Base64 encoded audio data" },
+        "voiceName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "text", "audioData", "voiceName", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/sessions/{userId}": {
+      "schema": { "$ref": "Session" },
+      "description": "Stores the active session for each user."
+    },
+    "/users/{userId}/tts_history/{historyId}": {
+      "schema": { "$ref": "TTSHistory" },
+      "description": "Stores the history of text-to-audio conversions for each user."
+    }
+  }
+}
