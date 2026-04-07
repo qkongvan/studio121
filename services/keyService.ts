@@ -38,9 +38,20 @@ export const getAiClient = (type: 'text' | 'image' = 'text'): GoogleGenAI => {
   const keys = getStoredKeys(type);
   const indexKey = type === 'text' ? TEXT_INDEX_KEY : IMAGE_INDEX_KEY;
   
+  let apiKey = '';
+  
   if (keys.length === 0) {
-    // Fallback về process.env.API_KEY nếu không có key thủ công
-    return new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    // Fallback về process.env.GEMINI_API_KEY nếu không có key thủ công
+    // Sử dụng process.env.GEMINI_API_KEY theo spec, fallback về process.env.API_KEY
+    apiKey = (process.env.GEMINI_API_KEY || process.env.API_KEY || '').trim();
+    
+    if (!apiKey) {
+      console.error(`[KeyService] No API Key found in storage or environment for ${type.toUpperCase()}`);
+      throw new Error("API Key chưa được cấu hình. Vui lòng nhấp vào biểu tượng 'Cấu hình API Key' ở thanh menu (biểu tượng chìa khóa/khóa) để nhập danh sách API Key.");
+    }
+    
+    console.debug(`[KeyService] Using environment API Key for ${type.toUpperCase()}`);
+    return new GoogleGenAI({ apiKey });
   }
 
   // Lấy index hiện tại từ sessionStorage để xoay vòng trong phiên làm việc
@@ -48,11 +59,16 @@ export const getAiClient = (type: 'text' | 'image' = 'text'): GoogleGenAI => {
   if (currentIndex >= keys.length) currentIndex = 0;
 
   // Giải mã key trước khi sử dụng (nếu nó được mã hóa)
-  const apiKey = decryptKey(keys[currentIndex]);
+  apiKey = decryptKey(keys[currentIndex]);
 
   // Tăng index cho lần gọi tiếp theo
   sessionStorage.setItem(indexKey, ((currentIndex + 1) % keys.length).toString());
 
-  console.debug(`Using ${type.toUpperCase()} API Key #${currentIndex + 1} of ${keys.length} (Decrypted: ${apiKey.startsWith('AIza')})`);
+  console.debug(`[KeyService] Using ${type.toUpperCase()} API Key #${currentIndex + 1} of ${keys.length} (Decrypted: ${apiKey.startsWith('AIza')})`);
+  
+  if (!apiKey) {
+    throw new Error("API Key trong danh sách không hợp lệ. Vui lòng kiểm tra lại cấu hình API Key.");
+  }
+
   return new GoogleGenAI({ apiKey });
 };
