@@ -290,13 +290,14 @@ export const generatePovImage = async (
     : `Appearance: Vietnamese ${gender}. ${charDesc || persona}`;
 
   const outfitInstruction = outfitPart 
-    ? "The character MUST wear the exact outfit shown in the OUTFIT_REFERENCE image. Match the style, fabric, and colors perfectly."
+    ? "The character MUST wear the exact outfit shown in the OUTFIT_REFERENCE image. Match the style, fabric, and colors perfectly. IGNORE any text descriptions of clothing or outfit details."
     : "The character wears an outfit matching the description: " + (charDesc || persona);
   
   const characterFidelityRule = (charDesc || persona) ? `
     CRITICAL CHARACTER FIDELITY (MANDATORY):
     - You MUST follow these specific appearance details for the character: "${charDesc || persona}".
     - DO NOT deviate from the described age, physique, or personality.
+    ${outfitPart ? "- IMPORTANT: IGNORE any clothing descriptions in the text above, prioritize the OUTFIT_REFERENCE image for clothes." : ""}
     - The character must look EXACTLY as described in every detail.
     ${is3D ? "- Translate these details into a cute and stylized 3D character design." : ""}
   ` : "";
@@ -305,7 +306,7 @@ export const generatePovImage = async (
     ? `CRITICAL BACKGROUND INSTRUCTION (PRIORITY):
        - You MUST place the character in the EXACT environment shown in the BACKGROUND_REFERENCE image.
        - Maintain 100% consistency with the objects, colors, and spatial layout of that background.
-       - Context details: "${contextNote || context}".`
+       - IGNORE any text descriptions of the background, environment, or context note.`
     : (contextNote || context ? `
     CRITICAL BACKGROUND INSTRUCTION (PRIORITY):
     - You MUST place the character in the following environment: "${contextNote || context}".
@@ -384,9 +385,10 @@ export const formatVideoPrompt = async (
     
     NGUYÊN TẮC QUAN TRỌNG (BẮT BUỘC):
     1. MÔ TẢ DỰA TRÊN HÌNH ẢNH THAM CHIẾU: Bạn phải nhìn kỹ ảnh được cung cấp và mô tả lại ĐÚNG nhân vật (trang phục, kiểu tóc, gương mặt) và bối cảnh (vật dụng xung quanh, ánh sáng) đang xuất hiện trong đó.
-    2. KHÔNG TỰ Ý BỊA ĐẶT BỐI CẢNH: Tuyệt đối không thêm thắt các chi tiết bối cảnh lạ lẫm không có trong ảnh.
-    3. TƯƠNG THÍCH KỊCH BẢN & HÀNH ĐỘNG: Biểu cảm gương mặt và cử động của nhân vật phải khớp với nội dung kịch bản nói: "${script}" và ghi chú hành động: "${regenNote || poseLabel}".
-    4. DUY TRÌ TÍNH NHẤT QUÁN: Đảm bảo nhân vật trong video giống hệt nhân vật trong ảnh.
+    2. ƯU TIÊN HÌNH ẢNH: Nếu có hình ảnh tham chiếu, hãy ƯU TIÊN TUYỆT ĐỐI các chi tiết trong ảnh và BỎ QUA các mô tả văn bản về bối cảnh hoặc trang phục nếu chúng mâu thuẫn hoặc khác biệt với ảnh.
+    3. KHÔNG TỰ Ý BỊA ĐẶT BỐI CẢNH: Tuyệt đối không thêm thắt các chi tiết bối cảnh lạ lẫm không có trong ảnh.
+    4. TƯƠNG THÍCH KỊCH BẢN & HÀNH ĐỘNG: Biểu cảm gương mặt và cử động của nhân vật phải khớp với nội dung kịch bản nói: "${script}" và ghi chú hành động: "${regenNote || poseLabel}".
+    5. DUY TRÌ TÍNH NHẤT QUÁN: Đảm bảo nhân vật trong video giống hệt nhân vật trong ảnh.
 
     PHONG CÁCH VIDEO: ${is3D ? "3D Animation / CGI Style" : "Photorealistic / Real Life Style"}.
 
