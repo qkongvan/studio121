@@ -93,6 +93,7 @@ const App: React.FC = () => {
   const [currentLanguage, setCurrentLanguage] = useState('vi');
   
   useEffect(() => {
+    console.log('GEMINI_API_KEY available:', !!process.env.GEMINI_API_KEY);
     // Read Google Translate cookie on load
     const getCookie = (name: string) => {
       const value = `; ${document.cookie}`;
