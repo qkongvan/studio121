@@ -1,4 +1,4 @@
-export const registrations = [
+[
   { "username": "admin", "password": "zxczxc", "date": "31/12/2026" },
   { "username": "admin1", "password": "zxczxc", "date": "31/12/2025" },
   { "username": "admin2", "password": "zxczxc", "date": "31/12/2026" },
