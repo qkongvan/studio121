@@ -1,20 +1,5 @@
 [
-  {
-    "username": "admin",
-    "password": "zxczxc",
-    "date": "31/12/2026",
-    "role": "admin"
-  },
-  {
-    "username": "user01",
-    "password": "123123",
-    "date": "01/01/2027",
-    "role": "user"
-  },
-  {
-    "username": "qkongvan",
-    "password": "zxczxc",
-    "date": "01/01/2027",
-    "role": "user"
-  }
+  { "username": "admin","password": "zxczxc","date": "31/12/2026", "role": "admin"},
+  { "username": "user01","password": "123123","date": "01/01/2027","role": "user"},
+  { "username": "qkongvan", "password": "zxczxc", "date": "01/01/2027", "role": "user"}
 ]
