@@ -1,9 +1,5 @@
 [
   { "username": "admin", "password": "zxczxc", "date": "31/12/2026" },
-  { "username": "admin1", "password": "zxczxc", "date": "31/12/2025" },
-  { "username": "admin2", "password": "zxczxc", "date": "31/12/2026" },
-  { "username": "qkongvan", "password": "zxczxc", "date": "31/12/2026" },
-  { "username": "vanvcn", "password": "123456", "date": "30/09/2026" },
-  { "username": "zxczxc", "password": "zxczxc", "date": "31/10/2026" },
-  { "username": "vanvcn1", "password": "zxczxc", "date": "30/09/2026" }
+  { "username": "qkongvan", "password": "zxczxc", "date": "31/12/2099" }
+  { "username": "demo", "password": "123456", "date": "08/09/2026" }
 ]
